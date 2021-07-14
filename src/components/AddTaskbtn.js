@@ -3,14 +3,21 @@ import {Button, Icon, Modal} from 'rsuite';
 import {useMediaQuery, useModalState} from '../misc/custom-hooks';
 import EditableTask from './EditableTask';
 
-const AddTaskbtn = ({}) => {
+const AddTaskbtn = ({openM}) => {
   const {isOpen, open, close} = useModalState();
   const isDesktop = useMediaQuery('(min-width: 600px)');
-
+  const openModal =()=>{
+    open();
+    if (!isDesktop) openM(true);
+  }
+  const closeModal = () => {
+    close();
+    openM(false);
+  }
   return (
     <>
       {isOpen ? null : (
-        <Button onClick={open} block color="blue">
+        <Button onClick={openModal} block color="blue">
           <Icon icon="plus-square" />
           {'  '}Add Task
         </Button>
@@ -28,7 +35,7 @@ const AddTaskbtn = ({}) => {
           </Modal>
         </div>
       ) : (
-        (isOpen && <EditableTask close={close} fullWidth />)
+        (isOpen && <EditableTask close={closeModal} fullWidth />)
       )}
     </>
   );

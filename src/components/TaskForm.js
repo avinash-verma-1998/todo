@@ -79,6 +79,8 @@ const TaskForm = ({dispatch, close, createTask, fullWidth}) => {
         {addDate ? (
           <DatePicker
             className="mb-20"
+            placement="auto"
+            placeholder="select Date"
             block
             onChange={setDate}
             format="YYYY-MM-DD HH:mm:ss"
@@ -102,9 +104,9 @@ const TaskForm = ({dispatch, close, createTask, fullWidth}) => {
               Submit
             </Button>
             <Button
+              block
               className="mt-20"
               color="red"
-              style={{width: '90%'}}
               onClick={close}
               appearance="default"
             >
