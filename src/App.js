@@ -1,11 +1,20 @@
 import React from 'react';
-/**
- *
- *
- * @return {*}
- */
+import SignInPage from './pages/SignInPage';
+import {Switch, BrowserRouter as Router} from 'react-router';
+import HomePage from './pages/HomePage';
+import PublicRoute from './components/PublicRoute';
+import PrivateRoute from './components/PrivateRoute';
 function App() {
-  return <div className="App">hello</div>;
+  return (
+          <Switch>
+        <PublicRoute path="/signin">
+          <SignInPage />
+        </PublicRoute>
+        <PrivateRoute path="/">
+          <HomePage />
+        </PrivateRoute>
+      </Switch>
+  );
 }
 
 export default App;
