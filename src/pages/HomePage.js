@@ -1,5 +1,6 @@
 import React from 'react';
 import {Alert, Button, Col, Grid, Icon, Row} from 'rsuite';
+import AddTaskbtn from '../components/AddTaskbtn';
 import EditableTask from '../components/EditableTask';
 import TaskList from '../components/TaskList';
 import {auth} from '../misc/firebase';
@@ -25,7 +26,9 @@ const HomePage = () => {
       <Row>
         <Col xs={0} sm={7} md={8}></Col>
         <Col xs={24} sm={10} md={8}>
-          <EditableTask edit/>
+          <TaskList/>
+          <AddTaskbtn/>
+          <hr/>
           <Button block onClick={signOut} color="red">
             <Icon icon="sign-out" />
             SignOut
