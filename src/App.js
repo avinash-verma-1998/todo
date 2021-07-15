@@ -1,20 +1,14 @@
 import React from 'react';
-// import SignInPage from './pages/SignInPage';
-// import {Switch, BrowserRouter as Router} from 'react-router';
 import HomePage from './pages/HomePage';
-// import PublicRoute from './components/PublicRoute';
-// import PrivateRoute from './components/PrivateRoute';
-function App() {
+import {persistLocalState,getLocalState} from './misc/utils'
+import {putInitalState} from "./actions/addTask"
+import {connect} from "react-redux"
+function App({dispatch}) {
+    const initialState =  getLocalState("tasks");
+  putInitalState(dispatch,initialState)
   return (
-        //   <Switch>
-        // <PublicRoute path="/signin">
-        //   <SignInPage />
-        // </PublicRoute>
-        // <PrivateRoute path="/">
           <HomePage />
-      //   </PrivateRoute>
-      // </Switch>
   );
 }
 
-export default App;
+export default connect()(App);

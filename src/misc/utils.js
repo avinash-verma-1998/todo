@@ -25,3 +25,15 @@ export function getDateString(time){
     }
     return `${time_today} ${months[time.getMonth()]}`;
 }
+
+export function persistLocalState(state){
+    localStorage.setItem("tasks",JSON.stringify(state))
+}
+export function getLocalState(state){
+    const tasks = localStorage.getItem("tasks");
+    if(!!tasks){
+        return JSON.parse(tasks);
+    }else{
+        return [];
+    }
+}

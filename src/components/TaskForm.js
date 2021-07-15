@@ -13,17 +13,32 @@ import {
   Toggle,
 } from 'rsuite';
 
-const {StringType} = Schema.Types;
-const model = Schema.Model({
-  title: StringType().isRequired('Enter a title.'),
-  task: StringType().isRequired('enter a task'),
-});
+// const {StringType} = Schema.Types;
+// const model = Schema.Model({
+//   title: StringType().isRequired('Enter a title.'),
+//   task: StringType().isRequired('enter a task'),
+// });
 
-const TaskForm = ({dispatch, close, createTask, fullWidth}) => {
-  const [addDate, setIsAddDate] = useState(false);
-  const [dateTime, setDateTime] = useState(new Date());
-  const [task, setTask] = useState('');
-  const [title, setTitle] = useState('');
+const TaskForm = ({_task, close, createTask, updateTask, fullWidth}) => {
+  let _addDate = false;
+  let update;
+  if(!!_task )
+    {
+      update = true;
+      if(!!_task.dateTime){
+        _addDate = true;
+      }
+
+    }
+  const task_state = !!_task ? _task : {
+    task:'',
+    title:'',
+    dateTime: new Date()
+  }  
+  const [addDate, setIsAddDate] = useState(_addDate);
+  const [dateTime, setDateTime] = useState(task_state.dateTime);
+  const [task, setTask] = useState(task_state.task);
+  const [title, setTitle] = useState(task_state.title);
   const formRef = useRef();
 
   const showDateTimePicker = (state) => {
@@ -38,17 +53,22 @@ const TaskForm = ({dispatch, close, createTask, fullWidth}) => {
   const handleTaskChange = (t) => {
     setTask(t);
   };
-  const updateTask = () => {
+  const updateTaskForm = () => {
     if (!formRef.current.check()) {
       return;
     }
+    if(update) {
+        updateTask(title, task, addDate ? dateTime : null)
+        if(close) close();
+        return;
+      };
 
     createTask(title, task, addDate ? dateTime : null);
     if (close) close();
   };
   return (
     <div className={fullWidth ? 'full-widh' : ''}>
-      <Form ref={formRef} model={model}>
+      <Form ref={formRef}>
         <FormGroup>
           <ControlLabel>Title</ControlLabel>
           <FormControl
@@ -72,6 +92,7 @@ const TaskForm = ({dispatch, close, createTask, fullWidth}) => {
         <Toggle
           onChange={showDateTimePicker}
           className="mb-20"
+          value={addDate}
           size="md"
           checkedChildren="remove reminder"
           unCheckedChildren={<Icon icon="clock-o" />}
@@ -83,7 +104,7 @@ const TaskForm = ({dispatch, close, createTask, fullWidth}) => {
             placeholder="select Date"
             block
             onChange={setDate}
-            format="YYYY-MM-DD HH:mm:ss"
+            format="DD-MM-YYYY HH:mm:ss"
             value={dateTime}
             ranges={[
               {
@@ -97,7 +118,7 @@ const TaskForm = ({dispatch, close, createTask, fullWidth}) => {
           <ButtonToolbar>
             <Button
               block
-              onClick={updateTask}
+              onClick={updateTaskForm}
               type="submit"
               appearance="primary"
             >

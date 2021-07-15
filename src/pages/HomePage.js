@@ -1,39 +1,23 @@
-import React, { useState } from 'react';
+import React,{useEffect} from 'react';
 import {Alert, Button, Col, Grid, Icon, Row} from 'rsuite';
 import AddTaskbtn from '../components/AddTaskbtn';
 import EditableTask from '../components/EditableTask';
 import TaskList from '../components/TaskList';
-import {auth} from '../misc/firebase';
-import {useProfile} from '../misc/profile';
-const HomePage = () => {
-  const [taskFormOpen,setTaskFormOpen] = useState(false);
-  // const [profile, isLoading] = useProfile();
+import { useMediaQuery, useModalState } from '../misc/custom-hooks';
 
-  // if (!isLoading) {
-  //   console.log(profile);
-  // }
-  // const signOut = () => {
-  //   auth
-  //     .signOut()
-  //     .then(() => {
-  //       Alert.info('user deleted', 4000);
-  //     })
-  //     .catch((error) => {
-  //       Alert.error(error.message, 4000);
-  //     });
-  // };
+const HomePage = ({}) => {
+  const {isOpen, open, close} = useModalState();
+  const isDesktop = useMediaQuery('(min-width: 600px)');
+
+  
   return (
     <Grid>
       <Row>
         <Col xs={0} sm={4} md={6}></Col>
         <Col xs={24} sm={16} md={12}>
-          {!taskFormOpen && <TaskList/>}
-          <AddTaskbtn openM={setTaskFormOpen}/>
+          {!isOpen && <TaskList open={open}/>}
+          <AddTaskbtn open={open} isOpen={isOpen} close={close} isDesktop={isDesktop}/>
           <hr/>
-          {/* <Button block onClick={signOut} color="red">
-            <Icon icon="sign-out" />
-            SignOut
-          </Button> */}
         </Col>
         <Col xs={0} sm={4} md={6}></Col>
       </Row>

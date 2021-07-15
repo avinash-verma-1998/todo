@@ -20,6 +20,9 @@ code {
 .mb-20 {
   margin-bottom: 20px;
 }
+.mr-10 {
+  margin-right: 10px;
+}
 .modal-container {
   width: 90%;
 }
@@ -29,4 +32,7 @@ code {
 }
 .completed{
   text-decoration: line-through;
+}
+.clickable-icon{
+  cursor: pointer;
 }

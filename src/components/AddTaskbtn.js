@@ -1,23 +1,13 @@
-import React from 'react';
+import React ,{useEffect, useState}from 'react';
 import {Button, Icon, Modal} from 'rsuite';
-import {useMediaQuery, useModalState} from '../misc/custom-hooks';
-import EditableTask from './EditableTask';
-
-const AddTaskbtn = ({openM}) => {
-  const {isOpen, open, close} = useModalState();
-  const isDesktop = useMediaQuery('(min-width: 600px)');
-  const openModal =()=>{
-    open();
-    if (!isDesktop) openM(true);
-  }
-  const closeModal = () => {
-    close();
-    openM(false);
-  }
+import TaskForm from './TaskForm';
+import EditableTask from './EditableTask'
+import {connect} from 'react-redux';
+const AddTaskbtn = ({open,isOpen,close,current,isDesktop,createTask}) => {
   return (
     <>
       {isOpen ? null : (
-        <Button onClick={openModal} block color="blue">
+        <Button onClick={open} block color="blue">
           <Icon icon="plus-square" />
           {'  '}Add Task
         </Button>
@@ -29,16 +19,20 @@ const AddTaskbtn = ({openM}) => {
               <Modal.Title>Create a new</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <EditableTask close={close} />
+              <EditableTask _task={current} createTask={createTask} close={close} />
             </Modal.Body>
             <Modal.Footer></Modal.Footer>
           </Modal>
         </div>
       ) : (
-        (isOpen && <EditableTask close={closeModal} fullWidth />)
+        (isOpen && <EditableTask _task={current} createTask={createTask} close={close} fullWidth />)
       )}
     </>
   );
 };
 
-export default AddTaskbtn;
+const mapStateToProps = (state)=>{
+  return {current: state.tasks.current}
+}
+
+export default connect(mapStateToProps)(AddTaskbtn);
